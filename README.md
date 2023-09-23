@@ -18,6 +18,7 @@ sudo apt install postgresql postgresql-contrib
 ### 2.1 Install `libpq-dev` package
 
 Ensure you have the `libpq-dev` package installed, which is required for psycopg2:
+- `libpq-dev` contains libraries and headers for C language frontend development
 
 ```bash
 sudo apt update
