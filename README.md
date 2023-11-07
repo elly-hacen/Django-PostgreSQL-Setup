@@ -1,67 +1,52 @@
-# Setting up PostgreSQL and psycopg2 for Django on Linux
+## Setting up PostgreSQL and psycopg2 for Django on Linux
 
-```markdown
+### Install [PostgreSQL](https://www.postgresql.org/download/)
 
-# Follow these steps to set up PostgreSQL and psycopg2 for your Django project on a Linux system.
+1. First, install PostgreSQL and its contrib package:
 
-## 1. Install PostgreSQL
+    ```bash
+    sudo apt install postgresql postgresql-contrib
+    ```
+2. Install ```libpq-dev``` package
 
-First, install PostgreSQL and its contrib package:
+     `libpq-dev` contains libraries and headers for C language frontend development
+    ```bash
+    sudo apt install libpq-dev
+    ```
+3. Install psycopg2 Library for PostgreSQL in Python:
 
-```bash
-sudo apt update
-sudo apt install postgresql postgresql-contrib
-```
+    ```bash
+    pip3 install psycopg2
+    ```
+4. If you're using Django 3.2 or later, consider using `psycopg2-binary`:
 
-## 2. Install psycopg2 Library for PostgreSQL in Python:
+    ```bash
+    pip3 install psycopg2-binary
+    ```
 
-### 2.1 Install `libpq-dev` package
+## Create a PostgreSQL Database and User:
 
-Ensure you have the `libpq-dev` package installed, which is required for psycopg2:
-- `libpq-dev` contains libraries and headers for C language frontend development
+1. Check PostgreSQL Status
 
-```bash
-sudo apt update
-sudo apt install libpq-dev
-```
+    Check if PostgreSQL is running:
+    
+    ```bash
+    systemctl status postgresql
+    ```
 
-### 2.2 Install psycopg2
+    If it's not running, start it:
+    
+    ```bash
+    sudo systemctl start postgresql
+    ```
 
-You can install psycopg2 using pip:
+    Enable automatic startup at boot:
+    
+    ```bash
+    sudo systemctl enable postgresql
+    ```
 
-```bash
-pip install psycopg2
-```
-
-If you're using Django 3.2 or later, consider using `psycopg2-binary`:
-
-```bash
-pip install psycopg2-binary
-```
-
-## 3. Create a PostgreSQL Database and User:
-
-### 3.1 Check PostgreSQL Status
-
-Check if PostgreSQL is running:
-
-```bash
-systemctl status postgresql
-```
-
-If it's not running, start it:
-
-```bash
-sudo systemctl start postgresql
-```
-
-Enable automatic startup at boot:
-
-```bash
-sudo systemctl enable postgresql
-```
-
-### 3.2 Access the PostgreSQL shell as the `postgres` user:
+### Access the PostgreSQL shell as the `postgres` user:
 
 ```bash
 sudo -iu postgres
@@ -73,23 +58,23 @@ Then, enter the PostgreSQL shell:
 psql
 ```
 
-### 3.3 Create Database and User
+### Create Database and User
 
-Create a database (replace `dbname` with your desired name):
+1. Create a database (replace `dbname` with your desired name):
 
 ```sql
 CREATE DATABASE dbname;
 ```
 
-Create a user with an encrypted password (replace `djangouser` and `myPasswordHere`):
+2. Create a user with an encrypted password (replace `djangouser` and `myPasswordHere`):
 
 ```sql
 CREATE USER djangouser WITH ENCRYPTED PASSWORD 'myPasswordHere';
 ```
 
-### 3.4 Connect to the Database
+### Connect to the Database
 
-Connect to the newly created database:
+1. Connect to the newly created database:
 
 ```sql
 \c dbname;
@@ -97,19 +82,19 @@ Connect to the newly created database:
 
 You're now connected to the "dbname" database as the "djangouser."
 
-Create a new schema and set its owner:
+2. Create a new schema and set its owner:
 
 ```sql
 CREATE SCHEMA schema_name AUTHORIZATION djangouser;
 ```
 
-Modify the search path for the user:
+3. Modify the search path for the user:
 
 ```sql
 ALTER ROLE djangouser IN DATABASE dbname SET search_path = schema_name;
 ```
 
-## 4. Django Database Configuration (settings.py):
+### Django Database Configuration (settings.py):
 
 In your Django project's `settings.py` file, configure the database settings as follows:
 
@@ -129,4 +114,3 @@ DATABASES = {
 Remember to replace `'dbname'`, `'djangouser'`, and `'myPasswordHere'` with your actual database name, username, and password set during database creation.
 
 That's it! If you're a Windows user, you will need to find alternative instructions as I am a Linux user 😄
-```
