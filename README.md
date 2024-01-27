@@ -113,4 +113,4 @@ DATABASES = {
 
 Remember to replace `'dbname'`, `'djangouser'`, and `'myPasswordHere'` with your actual database name, username, and password set during database creation.
 
-That's it! If you're a Windows user, you will need to find alternative instructions as I am a Linux user 😄
+That's it! If you're a Windows user, you will need to find alternative instructions as I am a Linux user ( i use arch btw ⚜️ ). 😄
